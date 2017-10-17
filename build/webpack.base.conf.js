@@ -1,10 +1,10 @@
 'use strict'
-const path = require('path')
-const utils = require('./utils')
-const config = require('../config')
+const path            = require('path')
+const utils           = require('./utils')
+const config          = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -23,7 +23,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'src': resolve('src'),
-      'common':resolve('src/common')
+      'common': resolve('src/common'),
+      'components': resolve('src/components')
     }
   },
   module: {
