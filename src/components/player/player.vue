@@ -27,13 +27,13 @@
               <i class="icon-sequence"></i>
             </div>
             <div class="icon i-left">
-              <i @click="prev" class="icon-prev"></i>
+              <i @click="prev" class="icon-prev" :class="disableCls"></i>
             </div>
             <div class="icon i-center">
               <i @click="togglePlaying" :class="playIcon"></i>
             </div>
             <div class="icon i-right">
-              <i @click="next" class="icon-next"></i>
+              <i @click="next" class="icon-next" :class="disableCls"></i>
             </div>
             <div class="icon i-right">
               <i class="icon icon-not-favorite"></i>
@@ -82,6 +82,9 @@
       miniIcon() {
         return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
       },
+      disableCls() {
+        return this.songReady ? '' : 'disable'
+      },
       ...mapGetters([
         'fullScreen',
         'playList',
@@ -102,7 +105,6 @@
           return
         }
         this.setPlayingState(!this.playing)
-        this.songReady = false
       },
       next() {
         if (!this.songReady) {
@@ -136,6 +138,7 @@
         this.songReady = true
       },
       error() {
+        this.songReady = true
       },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
