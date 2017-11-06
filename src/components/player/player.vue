@@ -68,7 +68,9 @@
         </div>
       </div>
     </transition>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"></audio>
+    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"
+           @ended="end"
+    ></audio>
   </div>
 </template>
 
@@ -143,6 +145,17 @@
         }
         this.songReady = false
       },
+      end() {
+        if (this.mode === playMode.loop) {
+          this.loop()
+        } else {
+          this.next()
+        }
+      },
+      loop() {
+        this.$refs.audio.currentTime = 0
+        this.$refs.audio.play()
+      },
       prev() {
         if (!this.songReady) {
           return
@@ -200,7 +213,6 @@
       },
       resetCurrentIndex(list) {
         let index = list.findIndex((item) => {
-          console.log(item)
           return item.id === this.currentSong.id
         })
         this.setCurrentIndex(index)
