@@ -233,6 +233,7 @@
         this.$nextTick(() => {
           this.$refs.audio.play()
         })
+        this.currentSong.getLyric()
       },
       playing(newPlaying) {
         const audio = this.$refs.audio
