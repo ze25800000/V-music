@@ -80,13 +80,15 @@
   import ProgressCircle from 'base/progress-circle/progress-circle'
   import {playMode} from 'common/js/config'
   import {shuffle} from 'common/js/util'
+  import Lyric from 'lyric-parser'
 
   export default {
     data() {
       return {
         songReady: false,
         currentTime: 0,
-        radius: 32
+        radius: 32,
+        currentLyric: null
       }
     },
     computed: {
@@ -217,6 +219,12 @@
         })
         this.setCurrentIndex(index)
       },
+      getLyric() {
+        this.currentSong.getLyric().then(lyric => {
+          this.currentLyric = new Lyric(lyric)
+          console.log(this.currentLyric)
+        })
+      },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
         setPlayingState: 'SET_PLAYING_STATE',
@@ -232,8 +240,8 @@
         }
         this.$nextTick(() => {
           this.$refs.audio.play()
+          this.getLyric()
         })
-        this.currentSong.getLyric()
       },
       playing(newPlaying) {
         const audio = this.$refs.audio
