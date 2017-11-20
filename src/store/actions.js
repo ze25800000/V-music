@@ -35,11 +35,16 @@ export const insertSong = function ({commit, state}, song) {
   let playlist = state.playList
   let sequenceList = state.sequenceList
   let currentIndex = state.currentIndex
-  // 记录当前歌曲
   let currentSong = playlist[currentIndex]
   let fpIndex = findIndex(playlist, song)
   currentIndex++
   playlist.splice(currentIndex, 0, song)
   if (fpIndex > -1) {
+    if (currentIndex > fpIndex) {
+      playlist.split(fpIndex, 1)
+      currentIndex--
+    } else {
+      playlist.splice(fpIndex + 1, 1)
+    }
   }
 }
