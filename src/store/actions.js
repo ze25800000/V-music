@@ -32,8 +32,8 @@ export const randomPlay = function ({commit}, {list}) {
 }
 
 export const insertSong = function ({commit, state}, song) {
-  let playlist = state.playList
-  let sequenceList = state.sequenceList
+  let playlist = state.playList.slice()
+  let sequenceList = state.sequenceList.slice()
   let currentIndex = state.currentIndex
   let currentSong = playlist[currentIndex]
   let fpIndex = findIndex(playlist, song)
@@ -41,7 +41,7 @@ export const insertSong = function ({commit, state}, song) {
   playlist.splice(currentIndex, 0, song)
   if (fpIndex > -1) {
     if (currentIndex > fpIndex) {
-      playlist.split(fpIndex, 1)
+      playlist.splice(fpIndex, 1)
       currentIndex--
     } else {
       playlist.splice(fpIndex + 1, 1)
