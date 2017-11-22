@@ -1,6 +1,7 @@
 import * as types from './mutation-type'
 import {shuffle} from 'common/js/util'
 import {playMode} from 'common/js/config'
+import {saveSearch} from 'common/js/cache'
 
 function findIndex(list, song) {
   return list.findIndex(item => {
@@ -63,5 +64,5 @@ export const insertSong = function ({commit, state}, song) {
 }
 
 export const saveSearchHistory = function ({commit}, query) {
-
+  commit(types.SET_SEARCH_HISTORY, saveSearch(query))
 }
