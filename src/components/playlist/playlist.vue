@@ -9,20 +9,20 @@
             <span class="clear"><i class="icon-clear"></i></span>
           </h1>
         </div>
-        <div>
-          <transition-group ref="list" name="list" tag="ul">
-            <li>
-              <i class="current"></i>
-              <span class="text"></span>
+        <scroll ref="listContent" :data="sequenceList" class="list-content">
+          <ul>
+            <li class="item" v-for="(item,index) in sequenceList" @click="selectItem(item,index)">
+              <i class="current" :class="getCurrentIcon(item)"></i>
+              <span class="text">{{item.name}}</span>
               <span class="like">
-                <i></i>
+                <i class="icon-not-favorite"></i>
               </span>
               <span class="delete">
                 <i class="icon-delete"></i>
               </span>
             </li>
-          </transition-group>
-        </div>
+          </ul>
+        </scroll>
         <div class="list-operate">
           <div class="add">
             <i class="icon-add"></i>
@@ -38,19 +38,53 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapGetters, mapMutations} from 'vuex'
+  import Scroll from 'base/scroll/scroll'
+  import {playMode} from 'common/js/config'
+
   export default {
     data() {
       return {
         showFlag: false
       }
     },
+    computed: {
+      ...mapGetters([
+        'sequenceList',
+        'currentSong',
+        'playList'
+      ])
+    },
     methods: {
       show() {
         this.showFlag = true
+        setTimeout(() => {
+          this.$refs.listContent.refresh()
+        }, 20)
       },
       hide() {
         this.showFlag = false
-      }
+      },
+      getCurrentIcon(item) {
+        if (this.currentSong.id === item.id) {
+          return 'icon-play'
+        }
+        return ''
+      },
+      selectItem(item, index) {
+        if (this.mode === playMode.random) {
+          index = this.playList.findIndex((song) => {
+            return song.id === item.id
+          })
+        }
+        this.setCurrentIndex(index)
+      },
+      ...mapMutations({
+        'setCurrentIndex': 'SET_CURRENT_INDEX'
+      })
+    },
+    components: {
+      Scroll
     }
   }
 </script>
