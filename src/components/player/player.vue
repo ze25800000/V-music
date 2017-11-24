@@ -87,12 +87,12 @@
             <i @click.stop="togglePlaying" :class="miniIcon" class="icon-mini"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click="showPlaylist">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
-    <playlist></playlist>
+    <playlist ref="playlist"></playlist>
     <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"
            @ended="end"
     ></audio>
@@ -294,6 +294,9 @@
           this.$refs.lyricList.scrollToElement(0, 0, 1000)
         }
         this.playingLyric = txt
+      },
+      showPlaylist() {
+        this.$refs.playlist.show()
       },
       middleTouchStart(e) {
         this.touch.initiated = true
