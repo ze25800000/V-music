@@ -74,7 +74,7 @@ export const playerMixin = {
       const index = this.favoriteList.findIndex(item => {
         return item.id === song.id
       })
-      return index >= -1
+      return index > -1
     },
     ...mapMutations({
       setPlayingState: 'SET_PLAYING_STATE',
