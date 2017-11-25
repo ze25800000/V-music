@@ -29,7 +29,13 @@ export const playerMixin = {
   computed: {
     iconMode() {
       return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
-    }
+    },
+    ...mapGetters([
+      'sequenceList',
+      'currentSong',
+      'playList',
+      'mode'
+    ])
   },
   methods: {
     changeMode() {
